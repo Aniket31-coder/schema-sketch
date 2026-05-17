@@ -73,10 +73,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
+        <meta name="google-site-verification" content="xRxdgV9gdXzTemExunJJfxbsaGciAanVTj47ZaddYFk" />
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        {/* <script dangerouslySetInnerHTML={{ __html: themeScript }} /> */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
