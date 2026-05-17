@@ -1,33 +1,37 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
 type Theme = "light" | "dark";
-
+function readTheme(): Theme {
+  if (typeof document === "undefined") return "light";
+  const attr = document.documentElement.getAttribute("data-theme");
+  return attr === "dark" ? "dark" : "light";
+}
 export function useTheme() {
-  // We can't read the DOM during SSR, so the initial state is a guess.
-  // After mount, we sync to the actual data-theme attribute that
-  // the inline script set during page load.
   const [theme, setThemeState] = useState<Theme>("light");
-
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme") as Theme;
-    if (current === "light" || current === "dark") {
-      Promise.resolve().then(() => setThemeState(current));
-    }
+    // Initial sync
+    Promise.resolve().then(() => setThemeState(readTheme()));
+    Promise.resolve().then(() => setMounted(true));
+    // Watch the html element for data-theme changes
+    const observer = new MutationObserver(() => {
+      setThemeState(readTheme());
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    return () => observer.disconnect();
   }, []);
-
   const setTheme = (next: Theme) => {
-    setThemeState(next);
     document.documentElement.setAttribute("data-theme", next);
     try {
       localStorage.setItem("theme", next);
     } catch {
-      /* localStorage might be disabled — fail silently */
+      /* ignore */
     }
+    // No need to call setThemeState — the MutationObserver will fire
   };
-
   const toggle = () => setTheme(theme === "light" ? "dark" : "light");
-
-  return { theme, setTheme, toggle };
+  return { theme, setTheme, toggle, mounted };
 }

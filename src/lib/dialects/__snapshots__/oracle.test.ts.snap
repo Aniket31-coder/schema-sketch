@@ -1,0 +1,184 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`emits a many-to-many relationship as a join table 1`] = `
+"CREATE TABLE "user" (
+  id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_user PRIMARY KEY (id)
+);
+
+CREATE TABLE role (
+  id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_role PRIMARY KEY (id)
+);
+
+CREATE TABLE role_user (
+  role_id NUMBER(10) NOT NULL,
+  user_id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_role_user PRIMARY KEY (role_id, user_id)
+);
+
+ALTER TABLE role_user
+  ADD CONSTRAINT fk_role_user_role
+  FOREIGN KEY (role_id) REFERENCES role (id);
+
+ALTER TABLE role_user
+  ADD CONSTRAINT fk_role_user_user
+  FOREIGN KEY (user_id) REFERENCES "user" (id);
+"
+`;
+
+exports[`emits a one-to-many relationship with FK and ALTER TABLE 1`] = `
+"CREATE TABLE customer (
+  id   NUMBER(10)    NOT NULL,
+  name VARCHAR2(255) NOT NULL,
+  CONSTRAINT pk_customer PRIMARY KEY (id)
+);
+
+CREATE TABLE "order" (
+  id          NUMBER(10) NOT NULL,
+  placed_at   DATE       NOT NULL,
+  customer_id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_order PRIMARY KEY (id)
+);
+
+ALTER TABLE "order"
+  ADD CONSTRAINT fk_order_customer
+  FOREIGN KEY (customer_id) REFERENCES customer (id);
+"
+`;
+
+exports[`handles multiple FKs on one table 1`] = `
+"CREATE TABLE customer (
+  id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_customer PRIMARY KEY (id)
+);
+
+CREATE TABLE address (
+  id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_address PRIMARY KEY (id)
+);
+
+CREATE TABLE "order" (
+  id          NUMBER(10) NOT NULL,
+  customer_id NUMBER(10) NOT NULL,
+  address_id  NUMBER(10) NOT NULL,
+  CONSTRAINT pk_order PRIMARY KEY (id)
+);
+
+ALTER TABLE "order"
+  ADD CONSTRAINT fk_order_customer
+  FOREIGN KEY (customer_id) REFERENCES customer (id);
+
+ALTER TABLE "order"
+  ADD CONSTRAINT fk_order_address
+  FOREIGN KEY (address_id) REFERENCES address (id);
+"
+`;
+
+exports[`makes FK nullable when relationship is optional 1`] = `
+"CREATE TABLE customer (
+  id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_customer PRIMARY KEY (id)
+);
+
+CREATE TABLE "order" (
+  id          NUMBER(10) NOT NULL,
+  customer_id NUMBER(10) NULL,
+  CONSTRAINT pk_order PRIMARY KEY (id)
+);
+
+ALTER TABLE "order"
+  ADD CONSTRAINT fk_order_customer
+  FOREIGN KEY (customer_id) REFERENCES customer (id);
+"
+`;
+
+exports[`oracle emitter > aligns column types for readability 1`] = `
+"CREATE TABLE "user" (
+  id          NUMBER(10)    NOT NULL,
+  a           VARCHAR2(255) NOT NULL,
+  longer_name VARCHAR2(255) NOT NULL,
+  x           CLOB          NOT NULL,
+  CONSTRAINT pk_user PRIMARY KEY (id)
+);
+"
+`;
+
+exports[`oracle emitter > emits PK and UK constraints 1`] = `
+"CREATE TABLE "user" (
+  id    NUMBER(10)    NOT NULL,
+  email VARCHAR2(255) NOT NULL,
+  name  VARCHAR2(255) NOT NULL,
+  CONSTRAINT pk_user PRIMARY KEY (id),
+  CONSTRAINT uk_user_email UNIQUE (email)
+);
+"
+`;
+
+exports[`oracle emitter > emits a composite primary key 1`] = `
+"CREATE TABLE user_role (
+  user_id NUMBER(10) NOT NULL,
+  role_id NUMBER(10) NOT NULL,
+  CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id)
+);
+"
+`;
+
+exports[`oracle emitter > emits a single entity with PK 1`] = `
+"CREATE TABLE customer (
+  id   NUMBER(10)    NOT NULL,
+  name VARCHAR2(255) NOT NULL,
+  CONSTRAINT pk_customer PRIMARY KEY (id)
+);
+"
+`;
+
+exports[`oracle emitter > emits multiple entities with blank lines between 1`] = `
+"CREATE TABLE customer (
+  id   NUMBER(10)    NOT NULL,
+  name VARCHAR2(255) NOT NULL,
+  CONSTRAINT pk_customer PRIMARY KEY (id)
+);
+
+CREATE TABLE "order" (
+  id          NUMBER(10) NOT NULL,
+  customer_id NUMBER(10) NOT NULL,
+  placed_at   DATE       NOT NULL,
+  CONSTRAINT pk_order PRIMARY KEY (id)
+);
+"
+`;
+
+exports[`oracle emitter > handles an entity with no constraints (no PK) 1`] = `
+"CREATE TABLE log (
+  message    VARCHAR2(255) NOT NULL,
+  created_at DATE          NOT NULL
+);
+"
+`;
+
+exports[`oracle emitter > maps types correctly 1`] = `
+"CREATE TABLE all_types (
+  a NUMBER(10)    NOT NULL,
+  b NUMBER(19)    NOT NULL,
+  c VARCHAR2(255) NOT NULL,
+  d CLOB          NOT NULL,
+  e NUMBER(19,4)  NOT NULL,
+  f NUMBER(1)     NOT NULL,
+  g DATE          NOT NULL,
+  h TIMESTAMP     NOT NULL,
+  i VARCHAR2(36)  NOT NULL,
+  CONSTRAINT pk_all_types PRIMARY KEY (a)
+);
+"
+`;
+
+exports[`oracle emitter > respects PascalCase naming 1`] = `
+"CREATE TABLE LineItem (
+  Id        NUMBER(10)   NOT NULL,
+  OrderId   NUMBER(10)   NOT NULL,
+  UnitPrice NUMBER(19,4) NOT NULL,
+  CONSTRAINT pk_LineItem PRIMARY KEY (Id)
+);
+"
+`;

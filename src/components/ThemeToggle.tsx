@@ -3,7 +3,9 @@
 import { useTheme } from "@/lib/hooks/useTheme";
 
 export function ThemeToggle() {
-  const { theme, toggle } = useTheme();
+  const { theme, toggle,mounted } = useTheme();
+
+  if(!mounted) return <div className="h-7 w-7" aria-hidden />
   const isDark = theme === "dark";
 
   return (

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { Logo } from "./Logo";
 
 type Props = {
   toolbar: ReactNode;
@@ -18,7 +19,8 @@ export function Shell({ toolbar, left, right, rightActions, errorBanner, footerS
       {/* Header */}
       <header className="border-b border-[rgb(var(--line))] bg-[rgb(var(--surface))]">
         <div className="flex flex-col gap-2 px-4 py-2.5 md:flex-row md:items-center md:justify-between md:gap-4 md:px-5 md:py-3">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-2">
+            <Logo size={18} />
             <span
               className="font-serif text-[18px] italic leading-none text-[rgb(var(--ink))] md:text-[19px]"
               style={{ fontFamily: "var(--font-fraunces)" }}
@@ -45,16 +47,18 @@ export function Shell({ toolbar, left, right, rightActions, errorBanner, footerS
           <div className="flex flex-wrap items-center gap-2">
             {toolbar}
             <span className="mx-1 hidden h-5 w-px bg-[rgb(var(--line))] md:inline-block" aria-hidden />
-            <ThemeToggle />
-            <a
-              href="https://github.com/Aniket31-coder/schema-sketch"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden items-center gap-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[rgb(var(--ink-soft))] hover:text-[rgb(var(--ink))] md:flex"
-            >
-              github
-              <span aria-hidden>↗</span>
-            </a>
+            <div className="hidden md:flex md:items-center md:gap-2">
+              <ThemeToggle />
+              <a
+                href="https://github.com/Aniket31-coder/schema-sketch"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="gap-1 font-mono text-[11px] uppercase tracking-[0.14em] text-[rgb(var(--ink-soft))] hover:text-[rgb(var(--ink))]"
+              >
+                github
+                <span aria-hidden>↗</span>
+              </a>
+            </div>
           </div>
         </div>
       </header>

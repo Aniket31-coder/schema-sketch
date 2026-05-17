@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: "Schema Sketch — Mermaid to SQL DDL Generator",
   description:
     "Generate production-grade SQL DDL from Mermaid erDiagram syntax. Live preview across Oracle, PostgreSQL, and MySQL. No signup, no AI.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ]
+  },  
   keywords: [
     "mermaid to sql",
     "erdiagram",
