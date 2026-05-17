@@ -32,7 +32,7 @@ CUSTOMER ||--o{ ORDER : "places"`;
 
 function SqlBlock({ code }: { code: string }) {
   const { theme, mounted } = useTheme();
-  console.log("SqlBlock render — theme:", theme, "mounted:", mounted);
+  // console.log("SqlBlock render — theme:", theme, "mounted:", mounted);
   const prismTheme = mounted && theme === "dark" ? themes.oneDark : themes.github;
   return (
     <Highlight code={code} language="sql" theme={prismTheme}>
